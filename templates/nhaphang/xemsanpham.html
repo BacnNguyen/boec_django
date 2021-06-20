@@ -1,0 +1,38 @@
+{%extends 'nhaphang/kho.html'%}
+{%block insideblock %}
+<div class="container">
+    <h2 style="margin-top: 15px;">Sản phẩm hiện tại trong kho</h2>
+    <input id="qsearch" onkeyup="textChange()" type="text" placeholder="search" style="width: 50%;margin: 10px 0;">
+    <div id="result_div">
+      {% include 'nhaphang/result_product.html'%}
+    </div>
+  </div>
+    <script> 
+      const endpoint = 'search';
+      const delay_by_in_ms = 700;
+      let scheduled_function = false;
+
+      ajax_call = function(endpoint,request_parameters){
+        $.getJSON(endpoint,request_parameters)
+        .done(respone=>{
+          // console.log(respone['html_from_view'])
+            document.getElementById("result_div").innerHTML = respone['html_from_view'];
+        })
+      }
+
+      function textChange(){ 
+        var text; 
+        
+        text = document.getElementById("qsearch").value; 
+
+        const request_parameters ={
+          q:text
+        }
+
+        if (scheduled_function) {
+          clearTimeout(scheduled_function);
+        }
+        scheduled_function = setTimeout(ajax_call, delay_by_in_ms, endpoint, request_parameters);
+      };
+      </script>
+    {%endblock%}

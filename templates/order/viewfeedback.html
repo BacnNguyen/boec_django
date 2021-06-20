@@ -1,0 +1,23 @@
+{%extends 'order/feedback.html'%}
+{%block feedback_process%}
+<table class="table table-hover mt-5">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Content</th>
+        <th>Time</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for cmt in comments%}
+      <tr>
+        <td>{{cmt.user}}</td>
+        <td>{{cmt.comment}}</td>
+        <td>{{cmt.time}}</td>
+        <td class="{% if cmt.type_comment == 'Positive' %}bg-success{%endif%}{% if cmt.type_comment == 'Negative' %}bg-danger{%endif%}{% if cmt.type_comment == 'Neutral' %}bg-secondary{%endif%}">{{cmt.type_comment}}</td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+  {%endblock%}

@@ -1,0 +1,16 @@
+{% extends 'homepage/base.html' %}
+{% load static %}
+{% block contentblock %}
+<main style="padding-top:50px;">
+    <br>
+    <br>
+    <div class="p-5">
+        <div class="nav nav-tabs">
+            <div class="nav-item mr-5"><a href="{% url 'order:viewfeedback'%}"><h3>Xem phản hồi</h3></a></div>
+            <div class="nav-item"><a href="{% url 'order:checkfeedback'%}"><h3>Xử lý phản hồi</h3></a></div>
+        </div>
+        {%block feedback_process%}
+        {%endblock%}
+    </div>
+    </main>
+  {%endblock%}

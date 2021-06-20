@@ -1,0 +1,176 @@
+{% extends 'homepage/base.html' %}
+{% load static %}
+
+
+{% block contentblock %}
+<!--Main layout-->
+<main style="padding-top:100px;">
+    <div class="cart container-fluid">
+        <h2 class="ml-2">Thanh toán</h2>
+      
+        <div class="row m-3 border">
+            <div class="col-12">
+                <h5 class="text-danger">Địa chỉ nhận hàng</h5>
+                <div class="address_user">
+                    <div class="row mt-2">
+                        <div class="col-md-3">
+                            <h4>{{address.reciever}} </h4>
+                            <strong>{{address.phone_reciever}}</strong>
+                        </div>
+                        <div class="col-md-7">
+                            <p class="address" name="address">{{address.ToString}}</p>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#change_address">Thay đổi</button>
+                            <div class="modal fade" id="change_address" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLongTitle">Chọn địa chỉ</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <h4>Chọn địa chỉ.</h4>
+                                      <form>
+                                        {%for a in list_add%}
+                                            <div class="radio">
+                                                <label><input style="margin-right: 5px;align-self: left;" type="radio" value="{{a.id}}" name="option_address" checked>{{a.ToString}}</label>
+                                            </div>
+                                        {%endfor%}
+                                        
+                                    </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      <button type="submit" class="btn btn-primary" id="confirm_change">OK</button>
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-3 p-3 text-center">
+            <div class="col-md-6 text-left">
+                <h4 class="text-primary">Sản phẩm</h4>
+            </div>
+            <div class="col-md-2">Đơn giá</div>
+            <div class="col-md-2">Số lượng</div>
+            <div class="col-md-2">Thành tiền</div>
+        </div>
+
+        <div class="row m-3 p-3 border text-center">
+        {% for cartItem in list %}
+            <div class="col-md-6 mb-3">
+                <img class="product-img-small" src="{{cartItem.item.thumbnail}}" alt="">
+                <span class="product_title-checkout">{{cartItem.item.title}}</span>
+            </div>
+            <div class="col-md-2">
+                <span>{{cartItem.item.sale_price}}</span>
+            </div>
+            <div class="col-md-2">
+                <span>{{cartItem.quantity}}</span>
+            </div>
+            <div class="col-md-2">
+                <strong>{{cartItem.total}}</strong>
+            </div>
+
+
+
+            {% endfor %}
+        </div>
+        <div class="row m-3 p-3 border text-center">
+            <div class="col-md-4">
+                <h3>Đơn vị vận chuyển</h3>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group " >
+                  <label for="">Chọn đơn vị vận chuyển</label>
+                  <select class="form-control" name="" id="shipping" required>
+                    <option value="" selected>-----Chọn-----</option>
+                    {% for s in ship %}
+                    <option value="{{s.id}}" data-fee="{{s.shipping_fee}}">{{s.title}}</option>
+                 
+
+                    {%endfor%}
+                  </select>
+                </div>
+                <!-- <h4>Vận chuyển nhanh</h4>
+                <span>J&T Express</span> -->
+            </div>
+            <div class="col-md-2">
+                <a href="">Thay đổi</a>
+            </div>
+            <div class="col-md-2 ">
+                <strong class="shipping-fee">0</strong>
+            </div>
+        </div>
+        
+        <div class="row m-3 p-3 border ">
+            <div class="col-md-3">
+                <h3 >Phương thức thanh toán</h3>
+            </div>
+            {% for method in payment%}
+            <div class="col-md-3">
+                <button class="btn " name="payment_method" data-id="{{method.id}}" >{{method.title}}</button>
+            </div>
+            <!-- <div class="col-md-3">
+                <button class="btn " name="payment_method">Thanh toán khi nhận hàng</button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn " name="payment_method">Thanh toán ví airpay</button>
+            </div> -->
+            {%endfor%}
+
+            
+        </div>
+        <div class="row p-3 border-top ">
+            <div class="col-md-10 text-right mb-3">
+                <h4 >Tổng tiền</h4>
+            </div>
+            <div class="col-md-2 text-center">
+                <strong class="price-product">{{total}}</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 text-right mb-3">
+                <h5 >Phí vận chuyển</h5>
+            </div>
+            <div class="col-md-2 text-center">
+                <strong class="shipping-fee price-product">0</strong>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-10 text-right mb-3">
+                <h4>Tổng thanh toán</h4>
+            </div>
+            <div class="col-md-2 text-center text-danger">
+                <strong id="total" class="price-product">{{total}}</strong>
+            </div>
+        </div>
+        <div class="row pr-5 d-flex justify-content-end">
+           
+            <div class="col-md-3 text-center text-danger">
+              <button class="btn btn-danger w-100" id="order">Đặt hàng</button>
+              <!-- <button class="btn btn-danger w-100" type="submit">Đặt hàng</button> -->
+            </div>
+        </div>
+
+    
+    </div>
+
+
+  
+    <!--Section: Products v.3-->
+    <!--Pagination-->
+
+</main>
+{%endblock%}
+<script>
+   
+</script>

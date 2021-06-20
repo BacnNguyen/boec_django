@@ -1,0 +1,48 @@
+{%extends 'order/feedback.html'%}
+{%block feedback_process%}
+<table class="table table-hover mt-5">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Content</th>
+        <th>Time</th>
+        <th>Type</th>
+        <th>Process</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for cmt in comments%}
+      <tr>
+        <td>{{cmt.user}}</td>
+        <td>{{cmt.comment}}</td>
+        <td>{{cmt.time}}</td>
+        <td class="{% if cmt.type_comment == 'Positive' %}bg-success{%endif%}{% if cmt.type_comment == 'Negative' %}bg-danger{%endif%}{% if cmt.type_comment == 'Neutral' %}bg-secondary{%endif%}">{{cmt.type_comment}}</td>
+        <td><button name="delete_cmt" data-id="{{cmt.id}}">Delete</button> <button type="button" id="replycomment" data-id="{{cmt.id}}" data-toggle="modal" data-target="#reply_cmt_form">Reply</button><button name="ignore_cmt" data-id="{{cmt.id}}">Ignore</button></td>
+      </tr>
+      {%endfor%}
+    </tbody>
+    <div class="modal fade" id="reply_cmt_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Reply Feedback</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Nội dung</label>
+              <input type="text"
+                class="form-control" name="" id="content_rep"  placeholder="" >
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="confirmreply">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </table>
+{%endblock%}
